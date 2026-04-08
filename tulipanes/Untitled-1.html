@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Yakelin 💜</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: black;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* 💌 CARTA (BAJA SUAVEMENTE) */
+.carta {
+    position: fixed;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid #ff69b4;
+    padding: 25px;
+    border-radius: 18px;
+    text-align: center;
+    color: #ff69b4;
+    width: 85%;
+    max-width: 340px;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(255,105,180,0.3);
+    animation: bajarCarta 2s ease forwards;
+}
+
+@keyframes bajarCarta {
+    to {
+        top: 50%;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 🌷 TULIPANES */
+.tulipan {
+    position: absolute;
+    width: 55px;
+    height: 90px;
+    opacity: 0;
+    animation: entrada 1.5s ease forwards, flotar 6s infinite ease-in-out;
+}
+
+@keyframes entrada {
+    to { opacity: 1; }
+}
+
+@keyframes flotar {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(2deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* 🌷 APERTURA DE PÉTALOS */
+.petalo {
+    transform-origin: bottom center;
+    animation: abrir 2s ease forwards;
+}
+
+.petalo.izq {
+    animation-delay: 0.2s;
+}
+
+.petalo.der {
+    animation-delay: 0.2s;
+}
+
+@keyframes abrir {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+}
+
+/* ✨ ESTRELLAS */
+.estrella {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #ff69b4;
+    animation: brillo 2s infinite alternate;
+}
+
+@keyframes brillo {
+    from { opacity: 0.2; }
+    to { opacity: 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="carta">
+    <h1>Para: Yakelin 💜</h1>
+    <p>Un jardín que florece y se abre… solo para ti 🌷✨</p>
+</div>
+
+<script>
+
+// 🌷 TULIPÁN CON APERTURA
+function crearTulipan() {
+    let t = document.createElement("div");
+    t.classList.add("tulipan");
+
+    t.innerHTML = `
+    <svg viewBox="0 0 100 140">
+        <!-- pétalos -->
+        <path class="petalo izq" d="M50 20 C30 50, 25 70, 50 95" fill="#ff4fa3"/>
+        <path class="petalo der" d="M50 20 C70 50, 75 70, 50 95" fill="#ff4fa3"/>
+        <path class="petalo" d="M50 25 C45 60, 50 75, 50 95 C50 75, 55 60, 50 25" fill="#ff85c1"/>
+        <!-- tallo -->
+        <rect x="47" y="95" width="6" height="40" fill="#2ecc71"/>
+    </svg>
+    `;
+
+    t.style.left = Math.random() * window.innerWidth + "px";
+    t.style.top = window.innerHeight + "px";
+
+    return t;
+}
+
+// ✨ estrellas
+for (let i = 0; i < 60; i++) {
+    let e = document.createElement("div");
+    e.className = "estrella";
+    e.style.left = Math.random() * window.innerWidth + "px";
+    e.style.top = Math.random() * window.innerHeight + "px";
+    document.body.appendChild(e);
+}
+
+// 🌷 flujo continuo
+function lanzarTulipan() {
+    let t = crearTulipan();
+    document.body.appendChild(t);
+
+    let duracion = 8000 + Math.random() * 4000;
+
+    t.animate([
+        { transform: "translateY(0)" },
+        { transform: `translateY(-${window.innerHeight + 200}px)` }
+    ], {
+        duration: duracion,
+        easing: "linear"
+    });
+
+    setTimeout(() => t.remove(), duracion);
+}
+
+setInterval(lanzarTulipan, 600);
+
+</script>
+
+</body>
+</html>
